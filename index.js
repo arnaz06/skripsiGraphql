@@ -4,7 +4,6 @@ import graphqlHTTP from 'express-graphql'
 import schema from './schema'
 
 
-
 const app = express()
 
 app.get('/',(req,res)=>{

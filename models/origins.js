@@ -11,5 +11,5 @@ module.exports = (sequelize, DataTypes) => {
   Origin.associate = function(models) {
     // associations can be defined here
   };
-  return provinces;
+  return Origin;
 };
