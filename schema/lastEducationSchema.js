@@ -18,6 +18,9 @@ export const resolvers={
   Query:{
     lastEducationAll:()=>{
       return Promise.resolve(models.LastEducation.findAll())
+    },
+    lastEducation: async (_,{id})=>{
+      return  await models.LastEducation.findById(id)
     }
   },
   Mutation:{

@@ -18,6 +18,9 @@ export const resolvers={
   Query:{
     userAll:()=>{
       return Promise.resolve(models.User.findAll())
+    },
+    user: async (_,{id})=>{
+      return await models.User.findById(id)
     }
   },
   Mutation:{

@@ -10,11 +10,16 @@ import {typeDef as Matriculant, resolvers as matriculantResolvers} from './schem
 const typeDefs=`
   type Query{
     hello:String
-    userAll: [User]
-    regisGroupAll: [RegistrationGroup]
-    originAll: [Origin]
     matriculantAll: [Matriculant]
+    matriculant(id:Int!): Matriculant
+    userAll: [User]
+    user(id:Int!): User
+    regisGroupAll: [RegistrationGroup]
+    registrationGroup(id:Int!): RegistrationGroup
+    originAll: [Origin]
+    origin(id:Int!): Origin
     lastEducationAll: [LastEducation]
+    lastEducation(id:Int!): LastEducation
   }
   type Mutation{
     createUser(input: UserInput) : User

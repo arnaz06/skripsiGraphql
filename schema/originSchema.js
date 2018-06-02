@@ -21,6 +21,9 @@ export const resolvers={
   Query:{
     originAll:()=>{
       return Promise.resolve(models.Origin.findAll())
+    },
+    origin: async(_,{id})=>{
+      return await models.Origin.findById(id)
     }
   },
   Mutation:{

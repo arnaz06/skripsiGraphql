@@ -18,6 +18,9 @@ export const resolvers={
   Query:{
     regisGroupAll:()=>{
       return Promise.resolve(models.RegistrationGroup.findAll())
+    },
+    registrationGroup: async(_,{id})=>{
+      return  await models.RegistrationGroup.findById(id)
     }
   },
   Mutation:{

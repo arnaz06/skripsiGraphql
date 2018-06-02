@@ -95,6 +95,11 @@ export const resolvers={
   Query:{
     matriculantAll:()=>{
       return Promise.reolve(models.Matriculant.findAll())
+    },
+    matriculant: async (_,{id})=>{
+      console.log(id);
+      let result= await models.Matriculant.findById(id)
+      return result
     }
   },
   Mutation:{
@@ -110,6 +115,7 @@ export const resolvers={
           id: input.id
         }
       })
+      console.log(result);
       return result
     },
 
