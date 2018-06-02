@@ -86,11 +86,32 @@ export const typeDef=`
     Ujian
     Registrasi
   }
+  input changeStatus{
+    id: Int!
+    status: Status!
+  }
 `
 export const resolvers={
+  Query:{
+    matriculantAll:()=>{
+      return Promise.reolve(models.Matriculant.findAll())
+    }
+  },
   Mutation:{
     createMatriculant:(_,{input})=>{
       return Promise.resolve(models.Matriculant.create(input))
-    }
+    },
+    changeStatusMatriculant:async (_,{input})=>{
+      let change={
+        status: input.status
+      }
+      let result= await models.Matriculant.update(change,{
+        where:{
+          id: input.id
+        }
+      })
+      return result
+    },
+
   }
 }
