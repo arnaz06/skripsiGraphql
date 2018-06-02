@@ -18,6 +18,11 @@ input OriginInput{
 }
 `
 export const resolvers={
+  Query:{
+    originAll:()=>{
+      return Promise.resolve(models.Origin.findAll())
+    }
+  },
   Mutation:{
     createOrigin:(_,{input})=>{
       console.log(input);

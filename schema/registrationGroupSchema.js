@@ -15,6 +15,11 @@ input RegistrationGroupInput{
 `
 
 export const resolvers={
+  Query:{
+    regisGroupAll:()=>{
+      return Promise.resolve(models.RegistrationGroup.findAll())
+    }
+  },
   Mutation:{
     createRegistrationGroup:(_,{input})=>{
       return Promise.resolve(models.RegistrationGroup.create(input))

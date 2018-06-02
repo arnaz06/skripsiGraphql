@@ -15,6 +15,11 @@ input LastEducationInput{
 }
 `
 export const resolvers={
+  Query:{
+    lastEducationAll:()=>{
+      return Promise.resolve(models.LastEducation.findAll())
+    }
+  },
   Mutation:{
     createLastEducation:(_,{input})=>{
       return Promise.resolve(models.LastEducation.create(input))
