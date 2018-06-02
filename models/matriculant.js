@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     NIK: DataTypes.STRING,
     NISN: DataTypes.STRING,
     fullName: DataTypes.STRING,
-    gander: {
+    gender: {
       type: DataTypes.ENUM,
       values: ['MALE','FEMALE']
     },
