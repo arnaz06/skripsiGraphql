@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Matriculant.associate = function(models) {
     // associations can be defined here
+    Matriculant.belongsTo(models.Origin, {foreignKey: 'originId'})
+    Matriculant.belongsTo(models.LastEducation, {foreignKey: 'lastEducationId'})
+    Matriculant.belongsTo(models.RegistrationGroup, {foreignKey: 'registrationGroupId'})
+
   };
   return Matriculant;
 };

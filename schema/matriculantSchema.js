@@ -20,11 +20,11 @@ export const typeDef=`
     phone: String
     password: String
     sourceInformation: SourceInformation
-    registrationGroupId: Int
+    RegistrationGroup: RegistrationGroup
     address: String
     status: Status
-    originId: Int
-    lastEducationId: Int
+    Origin: Origin
+    LastEducation: LastEducation
     createdAt: String
     updatedAt: String
   }
@@ -47,11 +47,11 @@ export const typeDef=`
     phone: String!
     password: String!
     sourceInformation: SourceInformation!
-    registrationGroupId: Int!
+    RegistrationGroup: Int!
     address: String!
     status: Status!
-    originId: Int!
-    lastEducationId: Int!
+    Origin: Int!
+    LastEducation: Int!
   }
   enum Gender{
     MALE
@@ -103,19 +103,57 @@ export const resolvers={
     }
   },
   Mutation:{
-    createMatriculant:(_,{input})=>{
-      return Promise.resolve(models.Matriculant.create(input))
+    createMatriculant: async (_,{input})=>{
+      let create = await models.Matriculant.create({
+        NIK: input.NIK,
+        NISN: input.NISN,
+        fullName: input.fullName,
+        gender: input.gender,
+        bloodType: input.bloodType,
+        birthPlace: input.birthPlace,
+        birth: input.birth,
+        religion: input.religion,
+        citizenship: input.citizenship,
+        fatherName: input.fatherName,
+        fatherBirth: input.fatherBirth,
+        motherName: input.motherName,
+        motherBirth: input.motherBirth,
+        parentsJob: input.parentsJob,
+        email: input.email,
+        phone: input.phone,
+        password: input.password,
+        sourceInformation: input.sourceInformation,
+        registrationGroupId: input.RegistrationGroup,
+        address: input.address,
+        status: input.status,
+        originId: input.Origin,
+        lastEducationId: input.LastEducation
+
+      })
+      let findMatriculant = await models.Matriculant.find({
+        include:[
+          {model: models.LastEducation},
+          {model: models.Origin},
+          {model: models.RegistrationGroup}
+        ],
+        where:{
+          id: create.id
+        }
+      })
+      console.log(findMatriculant);
+      return findMatriculant
     },
     changeStatusMatriculant:async (_,{input})=>{
       let change={
         status: input.status
       }
-      let result= await models.Matriculant.update(change,{
+      let event = await models.Matriculant.update(change,{
         where:{
           id: input.id
         }
       })
-      console.log(result);
+      console.log(event);
+      let result= await models.Matriculant.findById(input.id)
       return result
     },
 
