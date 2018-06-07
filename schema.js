@@ -11,7 +11,7 @@ const typeDefs=`
   type Query{
     hello:String
     matriculantAll: [Matriculant]
-    matriculant(id:Int!): Matriculant
+    matriculant(id:Int!,name:String): Matriculant
     userAll: [User]
     user(id:Int!): User
     regisGroupAll: [RegistrationGroup]
@@ -20,6 +20,7 @@ const typeDefs=`
     origin(id:Int!): Origin
     lastEducationAll: [LastEducation]
     lastEducation(id:Int!): LastEducation
+    matriculantStatistic(date:String,schoolName:String,regisGroup:String,status:Status): [Matriculant]
   }
   type Mutation{
     createUser(input: UserInput) : User

@@ -1,4 +1,5 @@
 import models from '../models'
+import sequelize from 'sequelize'
 
 export const typeDef=`
   type Matriculant{
@@ -93,13 +94,96 @@ export const typeDef=`
 `
 export const resolvers={
   Query:{
-    matriculantAll:()=>{
-      return Promise.reolve(models.Matriculant.findAll())
+    matriculantAll: async()=>{
+      return await models.Matriculant.findAll({include:[
+        {model: models.LastEducation},
+        {model: models.Origin},
+        {model: models.RegistrationGroup}
+      ]})
     },
     matriculant: async (_,{id})=>{
       console.log(id);
-      let result= await models.Matriculant.findById(id)
+      let result= await models.Matriculant.find({
+        where:{
+          id: id
+        },
+        include:[
+          {model: models.LastEducation},
+          {model: models.Origin},
+          {model: models.RegistrationGroup}
+        ]})
       return result
+    },
+    matriculantStatistic: async (_,{date,schoolName,regisGroup,status})=>{
+      // https://stackoverflow.com/questions/33271413/sequelize-or-clause-with-multiple-models
+      let dateToInt=parseInt(date)
+      let Op= sequelize.Op
+      let findSchool= await models.LastEducation.findOne({
+        where:{
+          schoolName: schoolName
+        }
+      })
+      let search={}
+      if(regisGroup){
+        let findRegisGroup= await models.RegistrationGroup.findOne({
+          where:{
+            group: regisGroup
+          }
+        })
+        if(findRegisGroup){
+          search.registrationGroupId= findRegisGroup.id
+        }else{
+          search.registrationGroupId= 0
+        }
+      }
+      if(schoolName){
+        let findSchool= await models.LastEducation.findOne({
+          where:{
+            schoolName: schoolName
+          }
+        })
+        if(findSchool){
+          search.lastEducationId= findSchool.id
+        }else{
+          search.lastEducationId=0
+        }
+      }
+
+      if(date){
+        let createdAt = {}
+        let dateTime= new Date()
+        let dateTimeNextMonth= new Date()
+        let year= parseInt(date)
+        let month=0
+        dateTime.setFullYear(year)
+        dateTime.setMonth(0)
+        dateTime.setDate(1)
+        dateTimeNextMonth.setFullYear(year)
+        dateTimeNextMonth.setMonth(11)
+        dateTimeNextMonth.setDate(31)
+        createdAt={
+          [Op.lt]: dateTimeNextMonth,
+          [Op.gt]: dateTime
+        }
+        search.createdAt=createdAt
+        console.log(search);
+      }
+      if(status){
+        search.status= status
+      }
+      console.log(search);
+      let findMatriculant= await models.Matriculant.findAll({
+        where:{
+          $and: search
+          },
+        include:[
+          {model: models.LastEducation},
+          {model: models.Origin},
+          {model: models.RegistrationGroup}
+        ],
+      })
+      // console.log(findMatriculant);
+      return findMatriculant
     }
   },
   Mutation:{
@@ -140,7 +224,6 @@ export const resolvers={
           id: create.id
         }
       })
-      console.log(findMatriculant);
       return findMatriculant
     },
     changeStatusMatriculant:async (_,{input})=>{
