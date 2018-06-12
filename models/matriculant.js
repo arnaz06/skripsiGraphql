@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     Matriculant.belongsTo(models.Origin, {foreignKey: 'originId'})
     Matriculant.belongsTo(models.LastEducation, {foreignKey: 'lastEducationId'})
     Matriculant.belongsTo(models.RegistrationGroup, {foreignKey: 'registrationGroupId'})
-
+    Matriculant.hasMany(models.MatriculantMajor,{foreignKey:'majorId'})
   };
   return Matriculant;
 };
