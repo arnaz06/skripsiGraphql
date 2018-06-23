@@ -45,7 +45,7 @@ const typeDefs=`
 `
 const resolvers = {
   Query: {}
-};
+}
 const schema = makeExecutableSchema({
   typeDefs:[typeDefs,
             User,

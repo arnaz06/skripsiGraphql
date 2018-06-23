@@ -2,9 +2,8 @@ import models from '../models';
 
 export const typeDef = `
 type MatriculantMajor{
-  Matriculant: Matriculant
   Major: Major
-  createdAt: String
+  Matriculant: Matriculant
   updatedAt: String
 }
 input MatriculantMajorInput {

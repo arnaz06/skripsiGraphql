@@ -3,6 +3,7 @@ import sequelize from 'sequelize'
 
 export const typeDef=`
   type Matriculant{
+    id: Int
     NIK: String
     NISN: String
     fullName: String
@@ -26,6 +27,7 @@ export const typeDef=`
     status: Status
     Origin: Origin
     LastEducation: LastEducation
+    MatriculantMajors: [MatriculantMajor]
     createdAt: String
     updatedAt: String
   }
@@ -53,6 +55,8 @@ export const typeDef=`
     status: Status!
     Origin: Int!
     LastEducation: Int!
+    majorOne: Int!
+    majorTwo: Int!
   }
   enum Gender{
     MALE
@@ -102,7 +106,7 @@ export const resolvers={
       ]})
     },
     matriculant: async (_,{id})=>{
-      console.log(id);
+    
       let result= await models.Matriculant.find({
         where:{
           id: id
@@ -110,7 +114,12 @@ export const resolvers={
         include:[
           {model: models.LastEducation},
           {model: models.Origin},
-          {model: models.RegistrationGroup}
+          {model: models.RegistrationGroup},
+          {model: models.MatriculantMajor,
+          include:[
+            {model: models.Major}
+          ]
+          }
         ]})
       return result
     },
@@ -214,11 +223,27 @@ export const resolvers={
         lastEducationId: input.LastEducation
 
       })
+      let saveMajor1= await models.MatriculantMajor.create({
+        majorId: input.majorOne,
+        matriculantId: create.id
+      })
+      let saveMajor2= await  models.MatriculantMajor.create({
+        majorId: input.majorTwo,
+        matriculantId: create.id
+      })
+      
       let findMatriculant = await models.Matriculant.find({
         include:[
           {model: models.LastEducation},
           {model: models.Origin},
-          {model: models.RegistrationGroup}
+          {
+            model: models.RegistrationGroup
+          }, {
+            model: models.MatriculantMajor,
+            include: [{
+              model: models.Major
+            }]
+          }
         ],
         where:{
           id: create.id
