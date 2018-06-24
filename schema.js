@@ -26,6 +26,7 @@ const typeDefs=`
     user(id:Int!): User
     regisGroupAll: [RegistrationGroup]
     registrationGroup(id:Int!): RegistrationGroup
+    sortMatriculant(type: String!): sortMatriculant
     originAll: [Origin]
     origin(id:Int!): Origin
     lastEducationAll: [LastEducation]

@@ -95,6 +95,7 @@ export const typeDef=`
     id: Int!
     status: Status!
   }
+ 
 `
 export const resolvers={
   Query:{

@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   });
   RegistrationGroup.associate = function(models) {
     // associations can be defined here
+    RegistrationGroup.hasMany(models.Matriculant,{
+      foreignKey: 'registrationGroupId'
+    })
   };
   return RegistrationGroup;
 };
