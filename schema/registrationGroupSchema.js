@@ -10,9 +10,10 @@ type RegistrationGroup{
 }
 type sortMatriculant{
   ia: Int
+  ib: Int
+  ic: Int
   iia: Int
-  iiia: Int
-  iva: Int
+  iib: Int
 }
 input RegistrationGroupInput{
   type: String!
@@ -37,35 +38,43 @@ export const resolvers={
       let _filterIa= await regisGroups.filter(regisGroup=>{
         return regisGroup.group=="IA"
       })
+      let _filterIb= await regisGroups.filter(regisGroup=>{
+        return regisGroup.group=="IB"
+      })
+      let _filterIc= await regisGroups.filter(regisGroup=>{
+        return regisGroup.group=="IC"
+      })
       let _filterIia= await regisGroups.filter(regisGroup=>{
         return regisGroup.group=="IIA"
       })
-      let _filterIiia= await regisGroups.filter(regisGroup=>{
-        return regisGroup.group=="IIIA"
-      })
-      let _filterIva= await regisGroups.filter(regisGroup=>{
-        return regisGroup.group=="IVA"
+      let _filterIib= await regisGroups.filter(regisGroup=>{
+        return regisGroup.group=="IIB"
       })
       let filterIa= await _filterIa.map(regisGroup=>{
         let countIa= regisGroup.Matriculants.length
         return countIa
       })
-      let filterIia= await _filterIia.map(regisGroup=>{
+      let filterIb= await _filterIb.map(regisGroup=>{
         let countIIa= regisGroup.Matriculants.length
         return countIIa
       })
-      let filterIiia= await _filterIiia.map(regisGroup=>{
+      let filterIc= await _filterIc.map(regisGroup=>{
         let countIIIa= regisGroup.Matriculants.length
         return countIIIa
       })
-      let filterIva= await _filterIva.map(regisGroup=>{
+      let filterIia= await _filterIia.map(regisGroup=>{
+        let countIVa= regisGroup.Matriculants.length
+        return countIVa
+      })
+      let filterIib= await _filterIib.map(regisGroup=>{
         let countIVa= regisGroup.Matriculants.length
         return countIVa
       })
       regisGroups.ia = filterIa[0]
+      regisGroups.ib = filterIb[0]
+      regisGroups.ic = filterIc[0]
       regisGroups.iia = filterIia[0]
-      regisGroups.iiia = filterIiia[0]
-      regisGroups.iva = filterIva[0]
+      regisGroups.iib = filterIib[0]
       return regisGroups
     },
     registrationGroup: async(_,{id})=>{

@@ -16,6 +16,7 @@ const typeDefs=`
     matriculantAll: [Matriculant]
     matriculant(id:Int!,name:String): Matriculant
     matriculantStatistic(date:String,schoolName:String,regisGroup:String,status:Status): [Matriculant]
+    matriculantPerMonth(year: Int!): MatriculantPerMonth
     majorAll: [Major]
     major(id:Int!): Major
     matriculantMajorAll: [MatriculantMajor]

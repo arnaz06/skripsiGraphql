@@ -31,6 +31,20 @@ export const typeDef=`
     createdAt: String
     updatedAt: String
   }
+  type MatriculantPerMonth {
+    jan: Int
+    feb: Int
+    mar: Int
+    apr: Int
+    may: Int
+    jun: Int
+    jul: Int
+    ags: Int
+    sep: Int
+    oct: Int
+    nov: Int
+    dec: Int
+  }
   input MatriculantInput{
     NIK: String!
     NISN: String!
@@ -97,6 +111,22 @@ export const typeDef=`
   }
  
 `
+let filterMonth= (matriculants,month)=>{
+  let dateTime= new Date()
+  dateTime.setMonth(month)
+  dateTime.setDate(1)
+  let dateTimeNextMonth= new Date()
+  if(month+1==11){
+    dateTimeNextMonth.setMonth(0)
+  }else{
+    dateTimeNextMonth.setMonth(month+1)
+  }
+  dateTimeNextMonth.setDate(1)
+  let filterMatriculant= matriculants.filter(matriculant=>{
+    return ((matriculant.createdAt > dateTime) && (matriculant.createdAt< dateTimeNextMonth))
+  })
+  return filterMatriculant.length
+}
 export const resolvers={
   Query:{
     matriculantAll: async()=>{
@@ -106,8 +136,42 @@ export const resolvers={
         {model: models.RegistrationGroup}
       ]})
     },
+    matriculantPerMonth: async(_,{year})=>{
+      const Op = sequelize.Op
+      let dateTime = new Date()
+      let dateTimeNextMonth = new Date()
+      let _year = parseInt(year)
+      let month = 0
+      dateTime.setFullYear(_year)
+      dateTime.setMonth(0)
+      dateTime.setDate(1)
+      dateTimeNextMonth.setFullYear(_year)
+      dateTimeNextMonth.setMonth(11)
+      dateTimeNextMonth.setDate(31)
+      let findMatriculant= await models.Matriculant.findAll({
+        where:{
+          createdAt:{
+            [Op.lt]: dateTimeNextMonth,
+            [Op.gt]: dateTime
+          }
+        }
+      })
+      findMatriculant.jan=filterMonth(findMatriculant,0)
+      findMatriculant.feb=filterMonth(findMatriculant,1)
+      findMatriculant.mar=filterMonth(findMatriculant,2)
+      findMatriculant.apr=filterMonth(findMatriculant,3)
+      findMatriculant.may=filterMonth(findMatriculant,4)
+      findMatriculant.jun=filterMonth(findMatriculant,5)
+      findMatriculant.jul=filterMonth(findMatriculant,6)
+      findMatriculant.ags=filterMonth(findMatriculant,7)
+      findMatriculant.sep=filterMonth(findMatriculant,8)
+      findMatriculant.oct=filterMonth(findMatriculant,9)
+      findMatriculant.nov=filterMonth(findMatriculant,10)
+      findMatriculant.dec=filterMonth(findMatriculant,11)
+      return findMatriculant
+
+    },
     matriculant: async (_,{id})=>{
-    
       let result= await models.Matriculant.find({
         where:{
           id: id
@@ -122,6 +186,8 @@ export const resolvers={
           ]
           }
         ]})
+        console.log(result);
+        
       return result
     },
     matriculantStatistic: async (_,{date,schoolName,regisGroup,status})=>{
