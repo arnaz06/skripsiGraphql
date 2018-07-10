@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
     password: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
     sourceInformation: {
       type: DataTypes.ENUM,
       values: ['TEMAN','KELUARGA','FORUM','GOOGLE','MEDIA CETAK','BALIHO','YOUTUBE','FACEBOOK']
@@ -45,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     Matriculant.belongsTo(models.Origin, {foreignKey: 'originId'})
     Matriculant.belongsTo(models.LastEducation, {foreignKey: 'lastEducationId'})
     Matriculant.belongsTo(models.RegistrationGroup, {foreignKey: 'registrationGroupId'})
-    Matriculant.hasMany(models.MatriculantMajor, {
+    Matriculant.hasMany(models.MatriculantProgram, {
       foreignKey: 'matriculantId'
     })
   };

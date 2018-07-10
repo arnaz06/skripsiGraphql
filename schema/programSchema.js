@@ -1,13 +1,13 @@
 import models from '../models'
 
 export const typeDef = `
-type Major{
+type Program{
   name: String
   Faculty: Faculty
   createdAt: String
   updatedAt: String
 }
-input MajorInput{
+input ProgramInput{
   name: String!
   facultyId: Int!
 }
@@ -15,7 +15,7 @@ input MajorInput{
 export const resolvers = {
   Query:{
     majorAll: async()=>{
-      let result = await models.Major.findAll({
+      let result = await models.Program.findAll({
         include: [{
           model: models.Faculty
         }]
@@ -23,7 +23,7 @@ export const resolvers = {
       return result
     },
     major: async(_,{id})=>{
-      let result= await models.Major.find({
+      let result= await models.Program.find({
         where:{
           id:id
         },
@@ -36,8 +36,8 @@ export const resolvers = {
     }
   },
    Mutation:{
-     createMajor: async (_,{input})=>{
-       return await models.Major.create(input)
+     createProgram: async (_,{input})=>{
+       return await models.Program.create(input)
      }
    }
 }

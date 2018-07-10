@@ -1,22 +1,22 @@
 import models from '../models';
 
 export const typeDef = `
-type MatriculantMajor{
-  Major: Major
+type MatriculantProgram{
+  Program: Program
   Matriculant: Matriculant
   updatedAt: String
 }
-input MatriculantMajorInput {
+input MatriculantProgramInput {
   matriculantId: Int!
   majorId: Int!
 }
 `
 export const resolvers = {
   Query:{
-    matriculantMajorAll:async()=>{
-      return await models.MatriculantMajor.findAll({
+    matriculantProgramAll:async()=>{
+      return await models.MatriculantProgram.findAll({
         include: [{
-            model: models.Major
+            model: models.Program
           },
           {
             model: models.Matriculant
@@ -24,13 +24,13 @@ export const resolvers = {
         ]
       })
     },
-    matriculantMajor: async(_,{id})=>{
-      return await models.MatriculantMajor.find({
+    matriculantProgram: async(_,{id})=>{
+      return await models.MatriculantProgram.find({
         where:{
           id:id
         },
         include: [{
-            model: models.Major
+            model: models.Program
           },
           {
             model: models.Matriculant
@@ -40,14 +40,14 @@ export const resolvers = {
     }
   },
   Mutation:{
-    createMatriculantMajor: async(_,{input})=>{
-      let result = await models.MatriculantMajor.create(input)
-      let findResult= models.MatriculantMajor.find({
+    createMatriculantProgram: async(_,{input})=>{
+      let result = await models.MatriculantProgram.create(input)
+      let findResult= models.MatriculantProgram.find({
         where:{
           id: result.id
         },
         include:[
-          {model: models.Major},
+          {model: models.Program},
           {model: models.Matriculant}
         ]
       })

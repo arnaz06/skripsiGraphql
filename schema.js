@@ -6,9 +6,9 @@ import {typeDef as RegistrationGroup, resolvers as registrationGroupResolvers} f
 import {typeDef as Origin , resolvers as originResolvers} from './schema/originSchema.js'
 import {typeDef as LastEducation, resolvers as lasEducationResolvers} from './schema/lastEducationSchema.js'
 import {typeDef as Matriculant, resolvers as matriculantResolvers} from './schema/matriculantSchema.js'
-import {typeDef as Major, resolvers as majorResolvers} from './schema/majorSchema.js'
+import {typeDef as Program, resolvers as majorResolvers} from './schema/programSchema'
 import {typeDef as Faculty, resolvers as facultyResolvers} from './schema/facultySchema.js'
-import {typeDef as MatriculantMajor, resolvers as matriculantMajorResolvers} from './schema/matriculantMajorSchema.js'
+import {typeDef as MatriculantProgram, resolvers as matriculantProgramResolvers} from './schema/matriculantProgramSchema'
 
 const typeDefs=`
   type Query{
@@ -17,10 +17,10 @@ const typeDefs=`
     matriculant(id:Int!,name:String): Matriculant
     matriculantStatistic(date:String,schoolName:String,regisGroup:String,status:Status): [Matriculant]
     matriculantPerMonth(year: Int!): MatriculantPerMonth
-    majorAll: [Major]
-    major(id:Int!): Major
-    matriculantMajorAll: [MatriculantMajor]
-    matriculantMajor(id:Int!): MatriculantMajor
+    majorAll: [Program]
+    major(id:Int!): Program
+    matriculantProgramAll: [MatriculantProgram]
+    matriculantProgram(id:Int!): MatriculantProgram
     facultyAll: [Faculty]
     faculty(id: Int!): Faculty
     userAll: [User]
@@ -34,8 +34,8 @@ const typeDefs=`
     lastEducation(id:Int!): LastEducation
   }
   type Mutation{
-    createMajor(input: MajorInput): Major
-    createMatriculantMajor(input: MatriculantMajorInput): MatriculantMajor
+    createProgram(input: ProgramInput): Program
+    createMatriculantProgram(input: MatriculantProgramInput): MatriculantProgram
     createFaculty(input: FacultyInput): Faculty
     createUser(input: UserInput) : User
     createRegistrationGroup(input: RegistrationGroupInput) : RegistrationGroup
@@ -55,9 +55,9 @@ const schema = makeExecutableSchema({
             Origin,
             LastEducation,
             Matriculant,
-            Major,
+            Program,
             Faculty,
-            MatriculantMajor
+            MatriculantProgram
           ],
   resolvers:merge(resolvers,
                   userResolvers,
@@ -67,7 +67,7 @@ const schema = makeExecutableSchema({
                   matriculantResolvers,
                   majorResolvers,
                   facultyResolvers,
-                  matriculantMajorResolvers
+                  matriculantProgramResolvers
                 )
 })
 

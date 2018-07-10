@@ -27,7 +27,8 @@ export const typeDef=`
     status: Status
     Origin: Origin
     LastEducation: LastEducation
-    MatriculantMajors: [MatriculantMajor]
+    userId: Int
+    MatriculantPrograms: [MatriculantProgram]
     createdAt: String
     updatedAt: String
   }
@@ -69,6 +70,7 @@ export const typeDef=`
     status: Status!
     Origin: Int!
     LastEducation: Int!
+    userId: Int!
     majorOne: Int!
     majorTwo: Int!
   }
@@ -180,9 +182,9 @@ export const resolvers={
           {model: models.LastEducation},
           {model: models.Origin},
           {model: models.RegistrationGroup},
-          {model: models.MatriculantMajor,
+          {model: models.MatriculantProgram,
           include:[
-            {model: models.Major}
+            {model: models.Program}
           ]
           }
         ]})
@@ -286,19 +288,22 @@ export const resolvers={
         registrationGroupId: input.RegistrationGroup,
         address: input.address,
         status: input.status,
+        userId: input.userId,
         originId: input.Origin,
         lastEducationId: input.LastEducation
 
       })
-      let saveMajor1= await models.MatriculantMajor.create({
-        majorId: input.majorOne,
-        matriculantId: create.id
-      })
-      let saveMajor2= await  models.MatriculantMajor.create({
-        majorId: input.majorTwo,
-        matriculantId: create.id
-      })
+      console.log(input.majorOne);
+      console.log(input.majorTwo);
       
+      let saveProgram1 = await models.MatriculantProgram.create({
+        programId: input.majorOne,
+        matriculantId: create.id
+      })
+      let saveProgram2= await  models.MatriculantProgram.create({
+        programId: input.majorTwo,
+        matriculantId: create.id
+      })
       let findMatriculant = await models.Matriculant.find({
         include:[
           {model: models.LastEducation},
@@ -306,9 +311,9 @@ export const resolvers={
           {
             model: models.RegistrationGroup
           }, {
-            model: models.MatriculantMajor,
+            model: models.MatriculantProgram,
             include: [{
-              model: models.Major
+              model: models.Program
             }]
           }
         ],

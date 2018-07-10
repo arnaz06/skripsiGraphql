@@ -3,7 +3,7 @@ import models from '../models'
 export const typeDef = `
 type Faculty{
   name: String
-  Majors: [Major]
+  Programs: [Program]
   createdAt: String
   updatedAt: String
 }
@@ -16,7 +16,7 @@ export const resolvers = {
     facultyAll: async()=>{
       let result = await models.Faculty.findAll({
         include: [{
-          model: models.Major
+          model: models.Program
         }],
       })
       return result
@@ -27,7 +27,7 @@ export const resolvers = {
           id:id
         },
         include:[
-          {model: models.Major}
+          {model: models.Program}
         ]
       })
       return result

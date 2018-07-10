@@ -1,14 +1,14 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Major = sequelize.define('Major', {
+  var Program = sequelize.define('Program', {
     name: DataTypes.STRING,
     facultyId: DataTypes.INTEGER
   }, {});
-  Major.associate = function(models) {
+  Program.associate = function(models) {
     // associations can be defined here
     
-    Major.belongsTo(models.Faculty,{foreignKey: 'facultyId'})
+    Program.belongsTo(models.Faculty,{foreignKey: 'facultyId'})
     
   };
-  return Major;
+  return Program;
 };

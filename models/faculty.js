@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Faculty.associate = function(models) {
     // associations can be defined here
-    Faculty.hasMany(models.Major,{foreignKey:'facultyId'})
+    Faculty.hasMany(models.Program,{foreignKey:'facultyId'})
   };
   return Faculty;
 };
