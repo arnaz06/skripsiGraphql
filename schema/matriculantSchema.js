@@ -111,6 +111,9 @@ export const typeDef=`
     id: Int!
     status: Status!
   }
+  type MatriculantCount{
+    count: Int
+  }
  
 `
 let filterMonth= (matriculants,month)=>{
@@ -138,6 +141,29 @@ export const resolvers={
         {model: models.RegistrationGroup}
       ]})
     },
+    countMatriculantByProgram: async (_, {programId,status}) => {
+        let matriculant = await models.Program.find({
+          where:{
+            id:programId
+          },
+          include:[
+            {model: models.MatriculantProgram,
+            include:[
+              {model: models.Matriculant,
+              where:{
+                status:status
+              }
+              }
+            ]
+            }
+          ]
+        })
+        matriculant.count=matriculant.MatriculantPrograms.length
+        return matriculant
+      },
+    countMatriculantByLastEdu: async (_,{lastEducationId,status})=>{
+      
+    },  
     matriculantPerMonth: async(_,{year})=>{
       const Op = sequelize.Op
       let dateTime = new Date()
@@ -170,6 +196,7 @@ export const resolvers={
       findMatriculant.oct=filterMonth(findMatriculant,9)
       findMatriculant.nov=filterMonth(findMatriculant,10)
       findMatriculant.dec=filterMonth(findMatriculant,11)
+      console.log(findMatriculant);
       return findMatriculant
 
     },
@@ -244,12 +271,10 @@ export const resolvers={
           [Op.gt]: dateTime
         }
         search.createdAt=createdAt
-        console.log(search);
       }
       if(status){
         search.status= status
       }
-      console.log(search);
       let findMatriculant= await models.Matriculant.findAll({
         where:{
           $and: search
@@ -262,7 +287,7 @@ export const resolvers={
       })
       // console.log(findMatriculant);
       return findMatriculant
-    }
+    },
   },
   Mutation:{
     createMatriculant: async (_,{input})=>{
@@ -293,9 +318,6 @@ export const resolvers={
         lastEducationId: input.LastEducation
 
       })
-      console.log(input.majorOne);
-      console.log(input.majorTwo);
-      
       let saveProgram1 = await models.MatriculantProgram.create({
         programId: input.majorOne,
         matriculantId: create.id
@@ -332,10 +354,9 @@ export const resolvers={
           id: input.id
         }
       })
-      console.log(event);
       let result= await models.Matriculant.findById(input.id)
       return result
     },
-
+  
   }
 }
