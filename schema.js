@@ -16,7 +16,8 @@ const typeDefs=`
     matriculantAll: [Matriculant]
     matriculant(id:Int!,name:String): Matriculant
     matriculantStatistic(date:String,schoolName:String,regisGroup:String,status:Status): [Matriculant]
-    countMatriculantByProgram(programId: Int!, status: String!): MatriculantCount
+    MatriculantByProgram(programId: Int!, status: String!): [Matriculant]
+    MatriculantByLastEdu(programId:Int!, lastEduId:Int!): [Matriculant]
     matriculantPerMonth(year: Int!): MatriculantPerMonth
     majorAll: [Program]
     major(id:Int!): Program

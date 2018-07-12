@@ -2,7 +2,7 @@ import models from '../models';
 
 export const typeDef = `
 type MatriculantProgram{
-  Program: Program
+  Programs: Program
   Matriculant: Matriculant
   updatedAt: String
 }

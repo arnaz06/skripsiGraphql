@@ -49,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     Matriculant.hasMany(models.MatriculantProgram, {
       foreignKey: 'matriculantId'
     })
+    Matriculant.belongsToMany(models.Program,{through: models.MatriculantProgram,foreignKey:'matriculantId'})
   };
   return Matriculant;
 };

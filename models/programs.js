@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'programId'
     })
     Program.belongsTo(models.Faculty,{foreignKey: 'facultyId'})
-    
+    Program.belongsToMany(models.Matriculant,{through: models.MatriculantProgram,foreignKey:'programId'})
   };
   return Program;
 };

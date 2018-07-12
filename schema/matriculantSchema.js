@@ -28,7 +28,7 @@ export const typeDef=`
     Origin: Origin
     LastEducation: LastEducation
     userId: Int
-    MatriculantPrograms: [MatriculantProgram]
+    Programs: [Program]
     createdAt: String
     updatedAt: String
   }
@@ -141,28 +141,37 @@ export const resolvers={
         {model: models.RegistrationGroup}
       ]})
     },
-    countMatriculantByProgram: async (_, {programId,status}) => {
-        let matriculant = await models.Program.find({
-          where:{
-            id:programId
-          },
+    MatriculantByProgram: async (_, {programId,status}) => {
+        let matriculant = await models.Matriculant.findAll({
           include:[
-            {model: models.MatriculantProgram,
-            include:[
-              {model: models.Matriculant,
-              where:{
-                status:status
-              }
-              }
-            ]
+            {model: models.Program,
+             where:{
+               id:programId
+             }
             }
-          ]
+          ],
+          where:{
+            status:status
+          }
         })
-        matriculant.count=matriculant.MatriculantPrograms.length
         return matriculant
       },
-    countMatriculantByLastEdu: async (_,{lastEducationId,status})=>{
-      
+    MatriculantByLastEdu: async (_, {programId,lastEduId}) => {
+      let matriculant= await models.Matriculant.findAll({
+        where:{
+          lastEducationId:lastEduId
+        },
+        include:[
+          {
+            model: models.Program,
+            where: {
+              id: programId
+            }
+          },
+          {model: models.LastEducation}
+        ]
+      })
+      return matriculant
     },  
     matriculantPerMonth: async(_,{year})=>{
       const Op = sequelize.Op
@@ -209,11 +218,7 @@ export const resolvers={
           {model: models.LastEducation},
           {model: models.Origin},
           {model: models.RegistrationGroup},
-          {model: models.MatriculantProgram,
-          include:[
-            {model: models.Program}
-          ]
-          }
+          {model: models.Program}
         ]})
         console.log(result);
         
