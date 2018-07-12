@@ -17,8 +17,11 @@
 3. duplicate _.env.example_ to _.env_ : ```$ cp .env.example .env```
 4. setup environment variable
 5. migrate database : ```$ sequelize db:migrate```
+7. add data seeder: ```$ sequelize db:seed```
 6. install dependencies ```$ npm install```
 
 
 ### Run project
 ```$ npm start```
+### GraphQL Dev Tool
+[graphQL](http://localhost:3000/graphql)
