@@ -208,7 +208,6 @@ export const resolvers={
       findMatriculant.oct=filterMonth(findMatriculant,9)
       findMatriculant.nov=filterMonth(findMatriculant,10)
       findMatriculant.dec=filterMonth(findMatriculant,11)
-      console.log(findMatriculant);
       return findMatriculant
     },
     matriculant: async (_,{id})=>{
@@ -289,10 +288,10 @@ export const resolvers={
         include:[
           {model: models.LastEducation},
           {model: models.Origin},
-          {model: models.RegistrationGroup}
+          {model: models.RegistrationGroup},
+          {model: models.Program},
         ],
       })
-      // console.log(findMatriculant);
       return findMatriculant
     },
   },
