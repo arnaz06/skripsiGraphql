@@ -138,7 +138,10 @@ export const resolvers={
       return await models.Matriculant.findAll({include:[
         {model: models.LastEducation},
         {model: models.Origin},
-        {model: models.RegistrationGroup}
+        {model: models.RegistrationGroup},
+        {
+          model: models.Program
+        }
       ]})
     },
     MatriculantByProgram: async (_, {programId,status}) => {
@@ -207,7 +210,6 @@ export const resolvers={
       findMatriculant.dec=filterMonth(findMatriculant,11)
       console.log(findMatriculant);
       return findMatriculant
-
     },
     matriculant: async (_,{id})=>{
       let result= await models.Matriculant.find({

@@ -1,5 +1,6 @@
 'use strict';
 let faker= require('faker')
+const uniqueRandom = require('unique-random');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -15,50 +16,34 @@ module.exports = {
     */
     let conflict=0
     let result=[]
-    for(let i=0;i<101;i++){
+    for(let i=0;i<1632;i++){
       let obj={}
-      let matriculantId = faker.random.number({
-        min: 57,
-        max: 157
-      })
-      let programId= faker.random.number({
-        min:5,
-        max:25
-      })
-      if ((typeof result[matriculantId] === 'undefined') && (typeof result[programId] === 'undefined')) {
-        obj.matriculantId = matriculantId
-        obj.programId=programId
-        obj.createdAt= new Date().toUTCString()
-        obj.updatedAt= new Date().toUTCString()
-        result.push(obj)
-      }else{
-        conflict++
-      }
+      let obj2={}
+      let matriculantId = 1268+i
+      let programId = uniqueRandom(5,25)
+      obj.matriculantId = matriculantId
+      obj.programId = programId()
+      obj.createdAt= new Date().toUTCString()
+      obj.updatedAt= new Date().toUTCString()
+      
+      obj2.matriculantId = matriculantId
+      obj2.programId = programId()
+      obj2.createdAt= new Date().toUTCString()
+      obj2.updatedAt= new Date().toUTCString()
+
+      result.push(obj)
+      result.push(obj2)
+
+      // ((result.matriculantId.indexOf(matriculantId) != -1) == ((result.matriculantId.indexOf(matriculantId) != -1))
+      // if (((result.matriculantId.indexOf(matriculantId) != -1)) && (result.programId.indexOf(programId) != -1)) {
+      //   obj.matriculantId = matriculantId
+      //   obj.programId=programId
+      //   result.push(obj)
+      // }else{
+      //   conflict++
+      // }
     }
-    if(conflict>0){
-      for(let i=0;i<conflict;i++){
-         let obj = {}
-         let matriculantId = faker.random.number({
-           min: 57,
-           max: 157
-         })
-         let programId = faker.random.number({
-           min: 5,
-           max: 25
-         })
-         if ((typeof result[matriculantId] === 'undefined') && (typeof result[programId] === 'undefined')) {
-           obj.matriculantId = matriculantId
-           obj.programId = programId
-           obj.createdAt = new Date().toUTCString()
-           obj.updatedAt = new Date().toUTCString()
-           result.push(obj)
-         } else {
-           conflict++
-         }
-      }
-    }
-    console.log(result);
-    
+    // console.log('1 ', result);
     return queryInterface.bulkInsert('MatriculantPrograms',result,{})
   },
 

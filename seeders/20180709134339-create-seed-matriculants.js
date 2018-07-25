@@ -14,7 +14,7 @@ module.exports = {
       }], {});
     */
     let result= [] 
-    for(let i=0; i<100; i++){
+    for(let i=0; i<3000; i++){
       result.push({
          NIK: faker.random.alphaNumeric(15),
          NISN: faker.random.alphaNumeric(15),

@@ -26,6 +26,7 @@
     "lodash": "^4.17.10",
     "nodemon": "^1.17.4",
     "pg": "^7.4.3",
-    "sequelize": "^4.37.10"
+    "sequelize": "^4.37.10",
+    "unique-random": "^2.0.0"
   }
 }

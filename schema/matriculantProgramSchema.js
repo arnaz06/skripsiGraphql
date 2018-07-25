@@ -2,7 +2,7 @@ import models from '../models';
 
 export const typeDef = `
 type MatriculantProgram{
-  Programs: Program
+  Program: Program
   Matriculant: Matriculant
   updatedAt: String
 }
@@ -14,7 +14,7 @@ input MatriculantProgramInput {
 export const resolvers = {
   Query:{
     matriculantProgramAll:async()=>{
-      return await models.MatriculantProgram.findAll({
+      let matriculantProgram = await await models.MatriculantProgram.findAll({
         include: [{
             model: models.Program
           },
@@ -23,6 +23,7 @@ export const resolvers = {
           }
         ]
       })
+      return matriculantProgram
     },
     matriculantProgram: async(_,{id})=>{
       return await models.MatriculantProgram.find({

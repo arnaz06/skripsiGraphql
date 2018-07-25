@@ -35,20 +35,21 @@ export const resolvers={
           {model: models.Matriculant}
         ]
       })
+
       let _filterIa= await regisGroups.filter(regisGroup=>{
-        return regisGroup.group=="IA"
+        return regisGroup.group=="ia"
       })
       let _filterIb= await regisGroups.filter(regisGroup=>{
-        return regisGroup.group=="IB"
+        return regisGroup.group=="ib"
       })
       let _filterIc= await regisGroups.filter(regisGroup=>{
-        return regisGroup.group=="IC"
+        return regisGroup.group=="ic"
       })
       let _filterIia= await regisGroups.filter(regisGroup=>{
-        return regisGroup.group=="IIA"
+        return regisGroup.group=="iia"
       })
       let _filterIib= await regisGroups.filter(regisGroup=>{
-        return regisGroup.group=="IIB"
+        return regisGroup.group=="iib"
       })
       let filterIa= await _filterIa.map(regisGroup=>{
         let countIa= regisGroup.Matriculants.length
